@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void done(ParseException e) {
                                     transitionToPassengerActivity();
+                                    transitionToDriverRequestListActivity();
                                 }
                             });
                         }
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (ParseUser.getCurrentUser() != null){
           transitionToPassengerActivity();
+          transitionToDriverRequestListActivity();
             //  ParseUser.logOut();
         }
 
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (e == null){
                                 Toast.makeText(MainActivity.this, "Signed UP!", LENGTH_SHORT).show();
                                 transitionToPassengerActivity();
+                                transitionToDriverRequestListActivity();
                             }
                         }
                     });
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     if (user != null && e == null){
                                         Toast.makeText(MainActivity.this, "User Logged In.", LENGTH_SHORT).show();
                                         transitionToPassengerActivity();
+                                        transitionToDriverRequestListActivity();
                                     }
                                 }
                             });
@@ -157,6 +162,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(ParseUser.getCurrentUser().get("as").equals("Passenger")){
                 Intent intent = new Intent(MainActivity.this,PassengerActivity.class);
                 startActivity(intent);
+                finish();
+            }
+        }
+    }
+
+    private void transitionToDriverRequestListActivity(){
+
+        if (ParseUser.getCurrentUser() != null ){
+            if (ParseUser.getCurrentUser().get("as").equals("Driver")){
+                Intent intent = new Intent(this,DriverRequestListActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
     }

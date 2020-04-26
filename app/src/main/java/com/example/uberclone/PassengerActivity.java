@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -45,7 +46,7 @@ public class PassengerActivity extends FragmentActivity implements OnMapReadyCal
 
     private Button btnRequestCar;
 
-    private Boolean isUberCancelled = false;
+    private Boolean isUberCancelled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,16 @@ public class PassengerActivity extends FragmentActivity implements OnMapReadyCal
                     isUberCancelled = false;
                     btnRequestCar.setText("Cancel the Ride");
                 }
+            }
+        });
+
+        findViewById(R.id.btnLogOutFromPassengerActivity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Intent intent = new Intent(PassengerActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -145,6 +156,7 @@ public class PassengerActivity extends FragmentActivity implements OnMapReadyCal
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
                 Location currentPassengerLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                assert currentPassengerLocation != null;
                 updateCameraPassengerLocation(currentPassengerLocation);
 
             }
