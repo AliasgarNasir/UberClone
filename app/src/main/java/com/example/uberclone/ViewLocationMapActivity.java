@@ -60,6 +60,8 @@ public class ViewLocationMapActivity extends FragmentActivity implements OnMapRe
 
                             for (ParseObject uberRequest : objects){
 
+                                uberRequest.put("requestAccepted",true);
+
                                 uberRequest.put("driverOfMe", ParseUser.getCurrentUser().getUsername());
 
                                 uberRequest.saveInBackground(new SaveCallback() {
